@@ -2,31 +2,29 @@
 
 class Database
 {
-    private $host     = 'MySQL-8.0';
-    private $port     = 3306;
-    private $db_name  = 'book_store';
-    private $username = 'root';
-    private $password = '';
-    private $charset   = 'utf8mb4';
-    public  $conn;
+    private $host     = 'dpg-d7sejev7f7vs7385jqig-a.singapore-postgres.render.com';
+    private $port     = 5432;
+    private $db_name  = 'book_db_of2k';
+    private $username = 'book_db_of2k_user';
+    private $password = 'X41hqwzEXohzTcBhbdnqVyMBhj6zNjVh';
+
+    public $conn;
 
     public function getConnection()
     {
         $this->conn = null;
-        $dsn = "mysql:host={$this->host};port={$this->port};dbname={$this->db_name};charset={$this->charset}";
+
+        $dsn = "pgsql:host={$this->host};port={$this->port};dbname={$this->db_name}";
+
         try {
             $this->conn = new PDO($dsn, $this->username, $this->password, [
-                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES   => false,
             ]);
         } catch (PDOException $e) {
-            die(
-                "Ошибка подключения к MySQL: " . $e->getMessage() .
-                "<br><br>Код ошибки: " . $e->getCode() .
-                "<br>Проверьте: запущен ли MySQL-8.0?"
-            );
+            die("Ошибка подключения к PostgreSQL: " . $e->getMessage());
         }
+
         return $this->conn;
     }
 }
